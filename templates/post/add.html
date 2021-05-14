@@ -1,0 +1,19 @@
+{% extends 'post/base.html' %}
+
+{% block title %}
+    <title>Добавить пост</title>
+{% endblock %}
+
+{% block content %}
+    <h1>Добавить пост</h1>
+    <form method="post" enctype="multipart/form-data">
+        {% csrf_token %}
+        <input type="text" name="header">
+        <input type="text" name="text">
+        <input type="file" name="image">
+        <input type="submit">
+    </form>
+    {{ header }}
+    {{ text }}
+    {{ image }}
+{% endblock %}

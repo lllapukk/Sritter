@@ -7,6 +7,14 @@
 {% block content %}
     <h1>Список записей</h1>
     {% for post in post_list  %}
+        <hr>
+        <p>{{ post.header }}</p>
+            {% if post.image %}
         <img src="{{ post.image.url }}">
+        {% endif %}
+        <p>{{ post.text }}</p>
+        <p>{{ post.author }}</p>
+        <p>{{ post.published_date }}</p>
+        <hr>
     {% endfor %}
 {% endblock %}
