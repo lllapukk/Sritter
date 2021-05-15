@@ -6,11 +6,9 @@
 
 {% block content %}
     <h1>Добавить пост</h1>
-    <form method="post" enctype="multipart/form-data">
+    <form method="post" enctype="multipart/form-data" action="{{ request.path }}">
         {% csrf_token %}
-        <input type="text" name="header">
-        <input type="text" name="text">
-        <input type="file" name="image">
+        {{ form.as_p }}
         <input type="submit">
     </form>
     {{ header }}

@@ -10,4 +10,4 @@ class Post(models.Model):
     text = models.TextField(verbose_name='Текст')
     author = models.ForeignKey(User, on_delete=models.CASCADE, verbose_name='Автор')
     published_date = models.DateTimeField(auto_now=True, verbose_name='Дата публикации')
-    image = models.ImageField()
+    image = models.ImageField(blank=True, null=True)

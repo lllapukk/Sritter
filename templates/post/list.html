@@ -4,13 +4,17 @@
     <title>Список записей</title>
 {% endblock %}
 
+{% load thumbnail %}
+
 {% block content %}
     <h1>Список записей</h1>
     {% for post in post_list  %}
         <hr>
         <p>{{ post.header }}</p>
-            {% if post.image %}
-        <img src="{{ post.image.url }}">
+        {% if post.image %}
+            {% thumbnail post.image "800x600" crop="center" as im %}
+                <img src="{{ im.url }}" width="{{ im.width }}" height="{{ im.height }}">
+            {% endthumbnail %}
         {% endif %}
         <p>{{ post.text }}</p>
         <p>{{ post.author }}</p>

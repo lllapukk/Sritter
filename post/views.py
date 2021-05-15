@@ -1,6 +1,7 @@
-from django.shortcuts import render
+from django.shortcuts import render, redirect
 
 from .models import Post
+from .forms import PostForm
 
 
 def post_list(request):
@@ -9,7 +10,7 @@ def post_list(request):
     return render(request, 'post/list.html', {'post_list': post_list})
 
 
-def post_list_by_author(request, user_id):
+def by_author(request, user_id):
     post_list = Post.objects.filter(author=user_id).order_by('-pk')
 
     return render(request, 'post/list.html', {'post_list': post_list})
@@ -17,14 +18,16 @@ def post_list_by_author(request, user_id):
 
 def add_post(request):
     if request.method != 'POST':
-        return render(request, 'post/add.html')
+        form = PostForm()
+        return render(request, 'post/add.html', {'form': form})
 
-    header = request.POST.get('header')
-    text = request.POST.get('text')
-    image = request.FILES.get('image')
+    form = PostForm(request.POST or None, request.FILES or None)
 
-    Post.objects.create(header=header, text=text, image=image, author=request.user)
+    if not form.is_valid():
+        return render(request, 'post.add.html', {'form': form})
 
-    return render(request, 'post/add.html', {
-        'header': header, 'text': text, 'image': image
-    })
+    post = form.save(commit=False)
+    post.author = request.user
+    post.save()
+
+    return redirect('post_list')
